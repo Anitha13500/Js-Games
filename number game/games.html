@@ -4,36 +4,110 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>revision</title>
+    <title>Number game</title>
+	<style>
+		#main {
+			display:flex;
+			flex-wrap:wrap;
+			justify-content:space-between;
+		}
+		.num_box{
+			position:relative;
+			width:25%;
+			height:150px;
+			text-align:center;
+			border:1px solid black;
+			line-height:150px;
+			margin-bottom:30px;
+			
+			
+		}
+		.num_box::after{
+			content:"";
+			position:absolute;
+			left:0;
+			top:0;
+			right:0;
+			bottom:0;
+			background-color: yellow;
+		
+		}
+		.num_box .activeBox::after{
+			background-color: transparent;
+		}
+		.num_box.successBox {
+			background-color:green;
+			color:white;
+		}
+		.successBox::after {
+			background-color:transparent;
+		}
+		body {
+			text-align:center;
+		}
+	</style>
+	
 </head>
 <body>
-	<div class="main">
-		<div class="game">
-			<button class="btn" id="btnid" onclick = greaternumber>START</button>
-			<p id = numbers></p>
+		<p id = number></p>
+		<button onclick =  "generateNumber()">Random Number</button>
+		<div id = "main">
 		</div>
-	</div>
 	<script>
-	var para= document.getElementById("numbers")
-		var btn = document.getElementById("btnid")
-			btn.innerHtml
-		function number (){
-			var num= math.trunc(math.random()*20);
+	var para = document.getElementById("number")
+		var box = document.getElementById("main");
+		function magicNumber(){
+			let  num = Math.trunc(Math.random()*20);
 			return num;
 		}
-		function greaternumber() {
-			let n= magicnumber();
+		function generateNumber() {
+			let n = magicNumber();
 			para.innerHtml =n ;
+			listBox();
 		}
 		
 		function listBox(){
-			var uniquenumber =[];
+			var uniqueNumber =[];
 			
-			
+			while (uniqueNumber.length<20){
+				let setNumber = magicNumber ();
+				var unique = uniqueNumber.includes(setNumber)
+					if(!unique) {
+						uniqueNumber.push(setNumber);
+					}
+		
+			}
+		
+		
+		
+		uniqueNumber.forEach ( 
+			function (elem,index) {
+				var numBox = document.createElement ("div")
+				numBox.setAttribute ("class", "num_box");
+				numBox.setAttribute("data-target", elem);
+				numBox.innerText = elem;
+				box.appendChild (numBox);
+				var element = document.getElementsByClassName("num_box");
+				for (let i=0; i<element.length ; i++) {
+					element[i].addEventListener("click",findNumbers);
+				}
+			}) 
+	}
+	function findNumbers (event) {
+		let _id=event.target.dataset.target;
+		console.log (_id);
+		if (_id ==para .innerText) {
+			event .target.classList.add ("successBox");
 		}
+		else {
+			alert ("please find again");
+			event.target.classList.add ("activeBox");
+		}
+	
+	}
+	
 	</script>
 	
 	
 </body>
 <html>
-	
